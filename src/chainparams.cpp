@@ -115,7 +115,8 @@ public:
         consensus.fStrictChainId = false;
         consensus.nLegacyBlocksBefore = -1;
     
-        consensus.nDashRulesStartHeight = 1083330;
+        consensus.nDashRulesStartHeight = 1087500;
+        consensus.nSuperblockStartBlock = consensus.nDashRulesStartHeight;
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
