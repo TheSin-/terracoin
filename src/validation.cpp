@@ -42,6 +42,8 @@
 #include "masternodeman.h"
 #include "masternode-payments.h"
 
+#include "governance-object.h"
+
 #include <sstream>
 
 #include <boost/algorithm/string/replace.hpp>
@@ -1305,7 +1307,7 @@ CAmount GetBlockSubsidy(int nPrevBits, int nPrevHeight, const Consensus::Params&
     CAmount nSubsidy = 20 * COIN;
     nSubsidy >>= halvings; // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
 
-    CAmount nSuperblockPart = (nHeight >= consensusParams.nDashRulesStartHeight) ? nSubsidy/10 : 0;
+    CAmount nSuperblockPart = (nHeight >= consensusParams.nTerracoinRulesStartHeight) ? nSubsidy/10 : 0;
     return fSuperblockPartOnly ? nSuperblockPart : nSubsidy - nSuperblockPart;
 }
 
@@ -2244,7 +2246,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     // the peer who sent us this block is missing some data and wasn't able
     // to recognize that block is actually invalid.
     // TODO: resync data (both ways?) and try to reprocess this block later.
-    if(pindex->nHeight >= Params().GetConsensus().nDashRulesStartHeight) {
+    if(pindex->nHeight >= Params().GetConsensus().nTerracoinRulesStartHeight) {
         CAmount blockReward = nFees + GetBlockSubsidy(pindex->pprev->nBits, pindex->pprev->nHeight, chainparams.GetConsensus());
         std::string strError = "";
         if (!IsBlockValueValid(block, pindex->nHeight, blockReward, strError)) {
@@ -2478,7 +2480,8 @@ void static UpdateTip(CBlockIndex *pindexNew) {
         for (int i = 0; i < 100 && pindex != NULL; i++)
         {
             int32_t nExpectedVersion = ComputeBlockVersion(pindex->pprev, chainParams.GetConsensus(), true);
-            if (pindex->nVersion > VERSIONBITS_LAST_OLD_BLOCK_VERSION && (pindex->nVersion & ~nExpectedVersion) != 0)
+            int32_t nVersion = pindex->nVersion.GetBaseVersion();
+            if (nVersion > VERSIONBITS_LAST_OLD_BLOCK_VERSION && (nVersion & ~nExpectedVersion) != 0)
                 ++nUpgraded;
             pindex = pindex->pprev;
         }

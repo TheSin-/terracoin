@@ -113,8 +113,8 @@ public:
         consensus.fStrictChainId = false;
         consensus.nLegacyBlocksBefore = -1;
     
-        consensus.nDashRulesStartHeight = 1087500;
-        consensus.nSuperblockStartBlock = consensus.nDashRulesStartHeight;
+        consensus.nTerracoinRulesStartHeight = 1087500;
+        consensus.nSuperblockStartBlock = consensus.nTerracoinRulesStartHeight;
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -287,7 +287,7 @@ public:
         consensus.fStrictChainId = false;
         consensus.nLegacyBlocksBefore = -1;
 
-        consensus.nDashRulesStartHeight = 0;
+        consensus.nTerracoinRulesStartHeight = 0;
 
         pchMessageStart[0] = 0x0b;
         pchMessageStart[1] = 0x11;
@@ -382,7 +382,7 @@ public:
         consensus.fStrictChainId = true;
         consensus.nLegacyBlocksBefore = 0;
 
-        consensus.nDashRulesStartHeight = 0;
+        consensus.nTerracoinRulesStartHeight = 0;
 
         pchMessageStart[0] = 0xfa;
         pchMessageStart[1] = 0xbf;

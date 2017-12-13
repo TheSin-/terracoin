@@ -293,7 +293,7 @@ CBlockTemplate* CreateNewBlock(const CChainParams& chainparams, const CScript& s
         txNew.vout[0].nValue = blockReward;
         txNew.vin[0].scriptSig = CScript() << nHeight << OP_0;
 
-        if(nHeight >= Params().GetConsensus().nDashRulesStartHeight)
+        if(nHeight >= Params().GetConsensus().nTerracoinRulesStartHeight)
         {
             // Update coinbase transaction with additional info about masternode and governance payments,
             // get some info back to pass to getblocktemplate

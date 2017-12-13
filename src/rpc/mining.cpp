@@ -637,6 +637,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
     for (int i = 0; i < (int)Consensus::MAX_VERSION_BITS_DEPLOYMENTS; ++i) {
         Consensus::DeploymentPos pos = Consensus::DeploymentPos(i);
         ThresholdState state = VersionBitsState(pindexPrev, consensusParams, pos, versionbitscache);
+	int32_t nVersion = pblock->nVersion.GetBaseVersion();
         switch (state) {
             case THRESHOLD_DEFINED:
             case THRESHOLD_FAILED:
@@ -644,7 +645,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
                 break;
             case THRESHOLD_LOCKED_IN:
                 // Ensure bit is set in block version
-                pblock->nVersion |= VersionBitsMask(consensusParams, pos);
+                nVersion |= VersionBitsMask(consensusParams, pos);
                 // FALL THROUGH to get vbavailable set...
             case THRESHOLD_STARTED:
             {
@@ -653,7 +654,7 @@ UniValue getblocktemplate(const UniValue& params, bool fHelp)
                 if (setClientRules.find(vbinfo.name) == setClientRules.end()) {
                     if (!vbinfo.gbt_force) {
                         // If the client doesn't support this, don't indicate it in the [default] version
-                        pblock->nVersion &= ~VersionBitsMask(consensusParams, pos);
+                        nVersion &= ~VersionBitsMask(consensusParams, pos);
                     }
                 }
                 break;
@@ -980,7 +981,7 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
     if (!coinbaseScript->reserveScript.size())
         throw JSONRPCError(RPC_INTERNAL_ERROR, "No coinbase script available (mining requires a wallet)");
 
-    if (vNodes.empty() && !Params().MineBlocksOnDemand())
+    if (g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0 && !Params().MineBlocksOnDemand())
         throw JSONRPCError(RPC_CLIENT_NOT_CONNECTED,
                            "Terracoin is not connected!");
 
@@ -1092,8 +1093,7 @@ UniValue getauxblock(const UniValue& params, bool fHelp)
     CValidationState state;
     submitblock_StateCatcher sc(block.GetHash());
     RegisterValidationInterface(&sc);
-    bool fAccepted = ProcessNewBlock(state, Params(), NULL, &block,
-                                     true, NULL);
+    bool fAccepted = ProcessNewBlock(Params(), &block, true, NULL, NULL);
     UnregisterValidationInterface(&sc);
 
     if (fAccepted)
