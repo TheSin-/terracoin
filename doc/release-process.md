@@ -1,21 +1,21 @@
 Release Process
 ====================
 
-* Update translations, see [translation_process.md](https://github.com/terracoinpay/terracoin/blob/master/doc/translation_process.md#syncing-with-transifex)
+* Update translations, see [translation_process.md](https://github.com/terracoin/terracoin/blob/master/doc/translation_process.md#syncing-with-transifex)
 * Update hardcoded [seeds](/contrib/seeds)
 
 * * *
 
-###First time / New builders
+### First time / New builders
 Check out the source code in the following directory hierarchy.
 
 	cd /path/to/your/toplevel/build
-	git clone https://github.com/terracoinpay/gitian.sigs.git
-	git clone https://github.com/terracoinpay/terracoin-detached-sigs.git
+	git clone https://github.com/terracoin/gitian.sigs.git
+	git clone https://github.com/terracoin/terracoin-detached-sigs.git
 	git clone https://github.com/devrandom/gitian-builder.git
-	git clone https://github.com/terracoinpay/terracoin.git
+	git clone https://github.com/terracoin/terracoin.git
 
-###Terracoin Core maintainers/release engineers, update (commit) version in sources
+### Terracoin Core maintainers/release engineers, update (commit) version in sources
 
 	pushd ./terracoin
 	contrib/verifysfbinaries/verify.sh
@@ -36,7 +36,7 @@ Check out the source code in the following directory hierarchy.
 
 * * *
 
-###Setup and perform Gitian builds
+### Setup and perform Gitian builds
 
  Setup Gitian descriptors:
 
@@ -58,7 +58,7 @@ Check out the source code in the following directory hierarchy.
 	pushd ./gitian-builder
 	git pull
 
-###Fetch and create inputs: (first time, or when dependency versions change)
+### Fetch and create inputs: (first time, or when dependency versions change)
 
 	mkdir -p inputs
 	wget -P inputs https://bitcoincore.org/cfields/osslsigncode-Backports-to-1.7.1.patch
@@ -72,7 +72,7 @@ Check out the source code in the following directory hierarchy.
 
 	tar -C /Volumes/Xcode/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/ -czf MacOSX10.9.sdk.tar.gz MacOSX10.9.sdk
 
-###Optional: Seed the Gitian sources cache and offline git repositories
+### Optional: Seed the Gitian sources cache and offline git repositories
 
 By default, Gitian will fetch source files as needed. To cache them ahead of time:
 
@@ -86,7 +86,7 @@ NOTE: Offline builds must use the --url flag to ensure Gitian fetches only from 
 ```
 The gbuild invocations below <b>DO NOT DO THIS</b> by default.
 
-###Build and sign Terracoin Core for Linux, Windows, and OS X:
+### Build and sign Terracoin Core for Linux, Windows, and OS X:
 
 	./bin/gbuild --commit terracoin=v${VERSION} ../terracoin/contrib/gitian-descriptors/gitian-linux.yml
 	./bin/gsign --signer $SIGNER --release ${VERSION}-linux --destination ../gitian.sigs/ ../terracoin/contrib/gitian-descriptors/gitian-linux.yml
@@ -111,7 +111,7 @@ The gbuild invocations below <b>DO NOT DO THIS</b> by default.
   4. OS X unsigned installer and dist tarball (terracoin-${VERSION}-osx-unsigned.dmg, terracoin-${VERSION}-osx64.tar.gz)
   5. Gitian signatures (in gitian.sigs/${VERSION}-<linux|{win,osx}-unsigned>/(your Gitian key)/
 
-###Verify other gitian builders signatures to your own. (Optional)
+### Verify other gitian builders signatures to your own. (Optional)
 
   Add other gitian builders keys to your gpg keyring
 
@@ -125,7 +125,7 @@ The gbuild invocations below <b>DO NOT DO THIS</b> by default.
 
 	popd
 
-###Next steps:
+### Next steps:
 
 Commit your signature to gitian.sigs:
 
@@ -139,7 +139,7 @@ Commit your signature to gitian.sigs:
 
   Wait for Windows/OS X detached signatures:
 	Once the Windows/OS X builds each have 3 matching signatures, they will be signed with their respective release keys.
-	Detached signatures will then be committed to the [terracoin-detached-sigs](https://github.com/terracoinpay/terracoin-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
+	Detached signatures will then be committed to the [terracoin-detached-sigs](https://github.com/terracoin/terracoin-detached-sigs) repository, which can be combined with the unsigned apps to create signed binaries.
 
   Create (and optionally verify) the signed OS X binary:
 
@@ -182,21 +182,21 @@ rm SHA256SUMS
 (the digest algorithm is forced to sha256 to avoid confusion of the `Hash:` header that GPG adds with the SHA256 used for the files)
 Note: check that SHA256SUMS itself doesn't end up in SHA256SUMS, which is a spurious/nonsensical entry.
 
-- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the terracoin.org server
+- Upload zips and installers, as well as `SHA256SUMS.asc` from last step, to the terracoin.io server
 
-- Update terracoin.org
+- Update terracoin.io
 
 - Announce the release:
 
-  - Release on Terracoin forum: https://www.terracoin.org/forum/topic/official-announcements.54/
+  - Release on Terracoin forum: https://www.terracoin.io/forum/topic/official-announcements.54/
 
   - Terracoin-development mailing list
 
-  - Update title of #terracoinpay on Freenode IRC
+  - Update title of #terracoin on Freenode IRC
 
-  - Optionally reddit /r/Terracoinpay, ... but this will usually sort out itself
+  - Optionally reddit /r/Terracoin, ... but this will usually sort out itself
 
-- Notify flare so that he can start building [the PPAs](https://launchpad.net/~terracoin.org/+archive/ubuntu/terracoin)
+- Notify flare so that he can start building [the PPAs](https://launchpad.net/~terracoin.io/+archive/ubuntu/terracoin)
 
 - Add release notes for the new version to the directory `doc/release-notes` in git master
 
