@@ -184,9 +184,7 @@ std::string CSporkManager::GetSporkNameByID(int nSporkID)
         case SPORK_3_INSTANTSEND_MAX_VALUE:             return "SPORK_3_INSTANTSEND_MAX_VALUE";
         case SPORK_4_MASTERNODE_PAYMENT_ENFORCEMENT:    return "SPORK_4_MASTERNODE_PAYMENT_ENFORCEMENT";
         case SPORK_5_SUPERBLOCKS_ENABLED:               return "SPORK_5_SUPERBLOCKS_ENABLED";
-        case SPORK_10_MASTERNODE_PAY_UPDATED_NODES:     return "SPORK_10_MASTERNODE_PAY_UPDATED_NODES";
         case SPORK_6_RECONSIDER_BLOCKS:                 return "SPORK_6_RECONSIDER_BLOCKS";
-        case SPORK_13_OLD_SUPERBLOCK_FLAG:              return "SPORK_13_OLD_SUPERBLOCK_FLAG";
         case SPORK_7_REQUIRE_SENTINEL_FLAG:             return "SPORK_7_REQUIRE_SENTINEL_FLAG";
         default:
             LogPrint("spork", "CSporkManager::GetSporkNameByID -- Unknown Spork ID %d\n", nSporkID);
