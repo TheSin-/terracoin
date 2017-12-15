@@ -118,6 +118,7 @@
     </qresource>
     <qresource prefix="/css">
         <file alias="light">res/css/light.css</file>
+        <file alias="light-hires">res/css/light-hires.css</file>
     </qresource>
     <qresource prefix="/images/light">
         <file alias="about">res/images/light/about.png</file>
