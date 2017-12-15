@@ -906,6 +906,9 @@ QString getThemeName()
     QString theme = settings.value("theme", "").toString();
 
     if(!theme.isEmpty()){
+        if(theme.compare(QString("light-hires")) == 0){
+		return QString("light");
+	}
         return theme;
     }
     return QString("light");  
