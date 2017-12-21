@@ -190,7 +190,7 @@ public:
 
         /* // typically it should be more than the current time */
         /* int nDiff = nEpochStart - nTipEpoch; */
-        /* int nBlockDiff = nDiff / (2.6*60); */
+        /* int nBlockDiff = nDiff / (2.1*60); */
 
         /* // calculate predicted block height */
         /* int nMod = (nTipBlock + nBlockDiff) % Params().GetConsensus().nSuperblockCycle; */
